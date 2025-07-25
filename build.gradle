@@ -1,0 +1,9 @@
+allprojects {
+    group = 'com.freedomBanking'
+    version = '1.0.0-SNAPSHOT'
+
+    repositories {
+        mavenCentral()
+    }
+
+}
