@@ -64,16 +64,16 @@ public class UserServiceImpl implements UserService {
             Optional<User> optionalUser = userRepository.findByEmail(request.getEmail());
 
             if (optionalUser.isPresent()) {
-                User user = new User();
+                User user = optionalUser.get();
 
-                if (!passwordEncoder.matches(user.getPassword(), request.getPassword())) {
+                if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
                     return new LoginResponse(false, "Invalid email or password");
                 }
 
                 String token = jwtUtil.generateToken(request.getEmail());
                 user.setLastLogin(LocalDateTime.now());
                 userRepository.save(user);
-                return new LoginResponse(false, "Login failed. Please try again.", token);
+                return new LoginResponse(true, "Login success.", token);
             } else {
                 return new LoginResponse(false, "Login failed. Please try again.");
             }
