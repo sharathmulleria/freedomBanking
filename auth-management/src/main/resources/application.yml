@@ -1,33 +1,7 @@
 spring:
-  datasource:
-    url: jdbc:mysql://localhost:3306/freedom_banking_auth
-    username: root
-    password: root
-    driver-class-name: com.mysql.cj.jdbc.Driver
-  jpa:
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.MySQL8Dialect
-    hibernate:
-      ddl-auto: update
-    security:
-      user:
-        name: user
-        password: 123
-logging:
-  level:
-    org:
-      hibernate:
-        SQL: DEBUG
-        type:
-          descriptor:
-            sql:
-              BasicBinder: TRACE
-server:
-  port: 8081
-
-jwt:
-  expiration:
-    millisecond: 900000
-  secret:
-    securityKey: mySampleSecureSecretKeyCombinationHere
+  application:
+    name: auth-management
+  config:
+    import: optional:configserver:http://localhost:8888
+  profiles:
+    active: default
