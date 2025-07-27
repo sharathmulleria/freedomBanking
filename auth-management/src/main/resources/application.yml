@@ -30,4 +30,4 @@ jwt:
   expiration:
     millisecond: 900000
   secret:
-    securityKey: myKey
+    securityKey: mySampleSecureSecretKeyCombinationHere
