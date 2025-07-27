@@ -1,7 +1,8 @@
 rootProject.name = 'freedomBanking-parent'
 include(
         "auth-management",
-        'common-utils'
+        'common-utils',
+        'transaction-service'
 )
-
+include 'config-service'
 

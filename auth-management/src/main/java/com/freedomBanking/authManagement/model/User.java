@@ -120,6 +120,8 @@ public class User extends CommonUtils {
         this.lastLogin = lastLogin;
     }
 
+
+
     public void setPassword(String password) {
         this.password = password;
     }

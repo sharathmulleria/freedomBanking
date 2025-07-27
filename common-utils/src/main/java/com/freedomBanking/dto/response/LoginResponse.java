@@ -16,6 +16,19 @@ public class LoginResponse {
 
  // getters and setters
 
+
+    public String getMessage() {
+        return message;
+    }
+
+    public Boolean getSuccess() {
+        return success;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
     public Boolean isSuccess() {
         return success;
     }
@@ -32,6 +45,7 @@ public class LoginResponse {
     public LoginResponse(Boolean success, String message, String token) {
         this.success = success;
         this.message = message;
+        this.token = token;
     }
 
     public LoginResponse(Long userId, String fullName, String token, Boolean success, String message) {
