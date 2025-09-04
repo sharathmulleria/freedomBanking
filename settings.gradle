@@ -4,5 +4,4 @@ include(
         'common-utils',
         'transaction-service'
 )
-include 'config-service'
 
