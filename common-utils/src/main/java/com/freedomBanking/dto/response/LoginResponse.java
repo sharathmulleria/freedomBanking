@@ -16,6 +16,19 @@ public class LoginResponse {
 
  // getters and setters
 
+
+    public String getMessage() {
+        return message;
+    }
+
+    public Boolean getSuccess() {
+        return success;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
     public Boolean isSuccess() {
         return success;
     }
