@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: transaction-management
+  config:
+    import: configserver:http://localhost:8888
+  profile:
+    active: default

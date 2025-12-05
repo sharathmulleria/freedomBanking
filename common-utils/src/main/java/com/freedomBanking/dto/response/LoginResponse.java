@@ -20,6 +20,29 @@ public class LoginResponse {
         return success;
     }
 
+    public Long getUserId() {
+        return userId;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public Boolean getSuccess() {
+        return success;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public String getEmail() {
+        return email;
+    }
 
     // constructor
 
@@ -32,13 +55,15 @@ public class LoginResponse {
     public LoginResponse(Boolean success, String message, String token) {
         this.success = success;
         this.message = message;
+        this.token = token;
     }
 
-    public LoginResponse(Long userId, String fullName, String token, Boolean success, String message) {
+    public  LoginResponse(Long userId, String fullName, String token, Boolean success, String message, String email) {
         this.userId = userId;
         this.fullName = fullName;
         this.token = token;
         this.success = success;
         this.message = message;
+        this.email = email;
     }
 }

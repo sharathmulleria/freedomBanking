@@ -88,6 +88,10 @@ public class User extends CommonUtils {
         return lastName;
     }
 
+    public String getFullName() {
+        return this.firstName+" "+this.lastName;
+    }
+
     public Date getDateOfBirth() {
         return dateOfBirth;
     }

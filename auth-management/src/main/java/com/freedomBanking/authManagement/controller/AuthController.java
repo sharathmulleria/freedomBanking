@@ -17,6 +17,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 
 @RestController
+@CrossOrigin("*")
 @RequestMapping("/api/auth")
 @Validated
 public class AuthController {
@@ -30,16 +31,24 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<ApiResponse<UserResponse>> register(@Valid @RequestBody RegisterRequest request) {
-        ApiResponse<UserResponse>  response = userService.registerUser(request);
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(response.getData().getUserId())
-                .toUri();
-        return ResponseEntity.created(location).body(response);
+        try {
+            ApiResponse<UserResponse>  response = userService.registerUser(request);
+            if (response.isSuccess()){
+                URI location = ServletUriComponentsBuilder
+                        .fromCurrentRequest()
+                        .path("/{id}")
+                        .buildAndExpand(response.getData().getUserId())
+                        .toUri();
+                return ResponseEntity.created(location).body(response);
+            }else {
+                return ResponseEntity.badRequest().body(response);
+            }
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new ApiResponse<>(false, e.getMessage()));
+        }
     }
 
-    @GetMapping("/login")
+    @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest request) {
 
         try {
@@ -54,5 +63,7 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
         }
     }
+
+
 
 }

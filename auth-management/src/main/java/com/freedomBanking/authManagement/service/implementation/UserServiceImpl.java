@@ -39,22 +39,28 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ApiResponse<UserResponse> registerUser(RegisterRequest request) throws UserAlreadyExistsException {
-        if (userRepository.existsByEmail(request.getEmail())) {
-            throw new UserAlreadyExistsException("User with email "+request.getEmail() + "already registered.");
+        try {
+            if (userRepository.existsByEmail(request.getEmail())) {
+                return new ApiResponse<>(false, "User Already registered with this email :"+ request.getEmail());
+            }
+
+            User user = new User(request);
+            Roles roles = new Roles(RoleName.CUSTOMER, user);
+            List<Roles> roleList = new ArrayList<>();
+            roleList.add(roles);
+            user.setRoles(roleList);
+            user.setPassword(passwordEncoder.encode(request.getPassword()));
+
+            UserResponse response =
+                    convertUserToUserResponse(
+                            userRepository.save(user)
+                    );
+
+            return new ApiResponse<UserResponse>(true,
+                    "Account created successfully", response);
+        }catch (Exception e) {
+            return new ApiResponse<>(false, e.getMessage());
         }
-
-        User user = new User(request);
-        Roles roles = new Roles(RoleName.CUSTOMER, user);
-        List<Roles> roleList = new ArrayList<>();
-        roleList.add(roles);
-        user.setRoles(roleList);
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
-
-        UserResponse response = convertUserToUserResponse(user);
-        userRepository.save(user);
-
-        return new ApiResponse<UserResponse>(true,
-                "Account created successfully", response);
     }
 
     @Override
@@ -64,16 +70,16 @@ public class UserServiceImpl implements UserService {
             Optional<User> optionalUser = userRepository.findByEmail(request.getEmail());
 
             if (optionalUser.isPresent()) {
-                User user = new User();
+                User user = optionalUser.get();
 
-                if (!passwordEncoder.matches(user.getPassword(), request.getPassword())) {
+                if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
                     return new LoginResponse(false, "Invalid email or password");
                 }
 
                 String token = jwtUtil.generateToken(request.getEmail());
                 user.setLastLogin(LocalDateTime.now());
                 userRepository.save(user);
-                return new LoginResponse(false, "Login failed. Please try again.", token);
+                return new LoginResponse(user.getUserId(), user.getFullName(), token, true, "Login Successful", user.getEmail());
             } else {
                 return new LoginResponse(false, "Login failed. Please try again.");
             }

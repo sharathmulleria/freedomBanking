@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: account-management
+  config:
+    import: configserver:http://localhost:8888
+  profiles:
+    active: default
+
+eureka:
+  client:
+    service-url:
+      default-zone: http://localhost:8761/eureka
