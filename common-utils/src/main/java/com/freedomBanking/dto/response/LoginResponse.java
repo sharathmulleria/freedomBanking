@@ -41,18 +41,6 @@ public class LoginResponse {
         return fullName;
     }
 
-    public String getToken() {
-        return token;
-    }
-
-    public Boolean getSuccess() {
-        return success;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
     public String getEmail() {
         return email;
     }
